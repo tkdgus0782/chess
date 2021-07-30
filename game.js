@@ -16,10 +16,33 @@ class piece{
 	}
 	
 	move(x, y){
+		let oFlag = false;
+		if(board[y][x].type == "king"){
+			oFlag = true;
+		}
 		board[y][x] = board[this.y][this.x];
 		board[this.y][this.x] = 0;
 		this.y = y;
 		this.x = x;
+		this.cnt += 1;
+		if(oFlag){
+			gameover(this.color);
+		}
+		if(turn == "black"){
+			turn = 'white';
+		}
+		else{
+			turn = "black";
+		}
+	}
+	
+	test(x, y){
+		if(0 <= x && x<= 7 && 0 <= y && y <= 7 && !(this.x==x && this.y==y)){
+			if(board[y][x] == 0 || board[y][x].color != this.color){
+				return true;
+			}
+		}
+		return false;	
 	}
 }
 
@@ -32,17 +55,9 @@ class king extends piece{
 		let result = [];
 		
 		for(let i=-1; i<2; i++){
-			for(let j=-1; j<2; j++){
-				
-				if(0 <= this.x+i && this.x+i <= 7 && 0 <= this.y+j && this.y+j <= 7 && !(i==0 && j==0)){
-					
-					if(board[this.y+j][this.x+i] == 0){
-						result.push([this.x+i, this.y+j]);
-					}
-					else if(board[this.y+j][this.x+i].color != this.color){
-						console.log(this.color + '!=' + board[this.y+j][this.x+i].color);
-						result.push([this.x+i, this.y+j]);	
-					}
+			for(let j=-1; j<2; j++){			
+				if(this.test(this.x+i, this.y+j)){
+					result.push([this.x+i, this.y+j]);
 				}
 			}
 		}
@@ -57,7 +72,122 @@ class queen extends piece{
 	}
 	
 	check(){
-		let result = [];		
+		let result = [];
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x + i, this.y)){
+				result.push([this.x + i, this.y]);
+				if(board[this.y][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x+i, this.y)){
+				result.push([this.x+i, this.y]);
+				if(board[this.y][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x, this.y+i)){
+				result.push([this.x, this.y+i]);
+				if(board[this.y+i][this.x] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x, this.y+i)){
+				result.push([this.x, this.y+i]);
+				if(board[this.y+i][this.x] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x+i, this.y+i)){
+				result.push([this.x+i, this.y+i]);
+				if(board[this.y+i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x+i, this.y+i)){
+				result.push([this.x+i, this.y+i]);
+				if(board[this.y+i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x+i, this.y-i)){
+				result.push([this.x+i, this.y-i]);
+				if(board[this.y-i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x+i, this.y-i)){
+				result.push([this.x+i, this.y-i]);
+				if(board[this.y-i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x-i, this.y+i)){
+				result.push([this.x-i, this.y+i]);
+				if(board[this.y+i][this.x-i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x-i, this.y+i)){
+				result.push([this.x-i, this.y+i]);
+				if(board[this.y+i][this.x-i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+
 		return result;
 	}//갈수있는 좌표(y,x)로 구성된 배열을 리턴
 }
@@ -68,7 +198,53 @@ class rook extends piece{
 	}
 	
 	check(){
-		let result = [];		
+		let result = [];
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x + i, this.y)){
+				result.push([this.x + i, this.y]);
+				if(board[this.y][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x+i, this.y)){
+				result.push([this.x+i, this.y]);
+				if(board[this.y][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x, this.y+i)){
+				result.push([this.x, this.y+i]);
+				if(board[this.y+i][this.x] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x, this.y+i)){
+				result.push([this.x, this.y+i]);
+				if(board[this.y+i][this.x] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}		
 		return result;
 	}//갈수있는 좌표(y,x)로 구성된 배열을 리턴
 }
@@ -79,7 +255,76 @@ class bishop extends piece{
 	}
 	
 	check(){
-		let result = [];		
+		let result = [];
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x+i, this.y+i)){
+				result.push([this.x+i, this.y+i]);
+				if(board[this.y+i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x+i, this.y+i)){
+				result.push([this.x+i, this.y+i]);
+				if(board[this.y+i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x+i, this.y-i)){
+				result.push([this.x+i, this.y-i]);
+				if(board[this.y-i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x+i, this.y-i)){
+				result.push([this.x+i, this.y-i]);
+				if(board[this.y-i][this.x+i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		
+		for(let i=-1; i>-8; i--){
+			if(this.test(this.x-i, this.y+i)){
+				result.push([this.x-i, this.y+i]);
+				if(board[this.y+i][this.x-i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		for(let i=1; i<8; i++){
+			if(this.test(this.x-i, this.y+i)){
+				result.push([this.x-i, this.y+i]);
+				if(board[this.y+i][this.x-i] != 0){
+					break;
+				}
+			}
+			else{
+				break;
+			}
+		}
 		return result;
 	}//갈수있는 좌표(y,x)로 구성된 배열을 리턴
 }
@@ -90,7 +335,33 @@ class knight extends piece{
 	}
 	
 	check(){
-		let result = [];		
+		let result = [];	
+		
+		if(this.test(this.x+1, this.y+2)){
+			result.push([this.x+1, this.y+2]);
+		}
+		if(this.test(this.x-1, this.y+2)){
+			result.push([this.x-1, this.y+2]);
+		}
+		if(this.test(this.x+1, this.y-2)){
+			result.push([this.x+1, this.y-2]);
+		}
+		if(this.test(this.x-1, this.y-2)){
+			result.push([this.x-1, this.y-2]);
+		}
+		
+		if(this.test(this.x+2, this.y+1)){
+			result.push([this.x+2, this.y+1]);
+		}
+		if(this.test(this.x-2, this.y+1)){
+			result.push([this.x-2, this.y+1]);
+		}
+		if(this.test(this.x+2, this.y-1)){
+			result.push([this.x+2, this.y-1]);
+		}
+		if(this.test(this.x-2, this.y-1)){
+			result.push([this.x-2, this.y-1]);
+		}
 		return result;
 	}//갈수있는 좌표(y,x)로 구성된 배열을 리턴
 }
@@ -104,38 +375,33 @@ class pawn extends piece{
 		let result = [];
 		
 		if(this.color == "black"){
-			if(this.cnt == 0){
-				if(this.y  <= 6 && board[this.y + 1][this.x] == 0){
-					result.push([this.x, this.y + 1]);
+			if(this.test(this.x, this.y+1) && board[this.y+1][this.x]==0){
+				result.push([this.x, this.y+1]);
+				if(this.test(this.x, this.y+2) && this.cnt==0 && board[this.y+2][this.x]==0){
+					result.push([this.x, this.y+2]);
 				}
-				if(this.y  <= 5 && board[this.y + 1][this.x] == 0 && board[this.y + 2][this.x] == 0 && this.cnt==0){
-					result.push([this.x, this.y + 2]);
-				}
-				if(this.y <= 6 && this.x >= 1 && board[this.y + 1][this.x - 1].color == "white"){
-					result.push([this.x -1, this.y + 1]);
-				}
-				if(this.y <= 6 && this.x <= 6 && board[this.y + 1][this.x + 1].color == "white"){
-					result.push([this.x + 1, this.y + 1]);
-				}
+			}
+			if(this.test(this.x+1, this.y+1) && board[this.y+1][this.x+1].color == "white"){
+				result.push([this.x+1, this.y+1]);
+			}
+			if(this.test(this.x-1, this.y+1) && board[this.y+1][this.x-1].color == "white"){
+				result.push([this.x-1, this.y+1]);
 			}
 		}
 		else{
-			if(this.cnt == 0){
-				if(this.y  >= 1 && board[this.y - 1][this.x] == 0){
-					result.push([this.x, this.y - 1]);
-				}
-				if(this.y  >= 2 && board[this.y - 1][this.x] == 0 && board[this.y - 2][this.x] == 0 && this.cnt==0){
-					result.push([this.x, this.y - 2]);
-				}
-				if(this.y >= 1 && this.x >= 1 && board[this.y - 1][this.x - 1].color == "black"){
-					result.push([this.x -1, this.y - 1]);
-				}
-				if(this.y <= 6 && this.x <= 6 && board[this.y - 1][this.x + 1].color == "black"){
-					result.push([this.x + 1, this.y - 1]);
+			if(this.test(this.x, this.y-1) && board[this.y-1][this.x]==0){
+				result.push([this.x, this.y-1]);
+				if(this.test(this.x, this.y-2) && this.cnt==0 && board[this.y-2][this.x]==0){
+					result.push([this.x, this.y-2]);
 				}
 			}
+			if(this.test(this.x+1, this.y-1) && board[this.y-1][this.x+1].color == "black"){
+				result.push([this.x+1, this.y-1]);
+			}
+			if(this.test(this.x-1, this.y-1) && board[this.y-1][this.x-1].color == "black"){
+				result.push([this.x-1, this.y-1]);
+			}
 		}
-		
 		return result;
 	}//갈수있는 좌표(y,x)로 구성된 배열을 리턴
 }
@@ -150,7 +416,9 @@ function init(){
 	
 	window.selected = [-1, -1];//현재 선택된 칸.
 	window.pFlag = false;//선택된 칸에 움직일수 있는 말이 있는지?
+	window.cFlag = false;
 	window.possible = [];//현재 선택된 움직일수 있는 말의 이동 가능 좌표
+	window.turn = 'black';//참 = 검은색
 	
 	initBoard();
 	updateSize();
@@ -176,19 +444,19 @@ function loop(){
 	window.playing = setInterval(draw, 10);
 }
 
-function gameover(){
+function gameover(part){
 	clearInterval(playing);
 	scr.clearRect(0,0,canvas.width,canvas.height);
 	scr.fillStyle = 'black';
 	scr.font = '60px consolas';
-	scr.fillText('GAME OVER!!', canvas.width/3, canvas.height/2);
+	scr.fillText(`${part} WINS!`, canvas.width/3, canvas.height/2);
 }
 
 ///////////////////////////////////////////////////////////user-define 함수.
 
 function checkIn(origin, find){
 	for(let i=0; i<origin.length; i++){
-		if(JSON.stringify(origin[i]) == JSON.stringify(find)){
+		if(JSON.stringify(origin[i]) == JSON.stringify(find)){//문자열로 만들어서 비교!
 			return true;
 		}
 	}
@@ -203,15 +471,19 @@ function select(location){
 		if(x >= 0 && x < 8*blockL && y >= 0 && y < 8*blockL){
 			x = Math.floor(x/blockL);
 			y = Math.floor(y/blockL);
-			console.log(possible , [x,y], checkIn(possible, [x, y]));
+			//console.log(possible , [x,y], checkIn(possible, [x, y]));
+			cFlag = 1;
 			if(pFlag && checkIn(possible, [x, y])){
 				board[selected[1]][selected[0]].move(x, y);
 				selected = [-1, -1];
 				pFlag = false;
 			}
-			else{
+			else if(board[y][x] != 0 && turn == board[y][x].color){
 				selected = [x, y];
 				pFlag = true;
+			}
+			else if(board[y][x] == 0){
+				pFlag = false;
 			}
 			return;
 		}
@@ -250,7 +522,6 @@ function initBoard(){
 	}
 	
 }
-
 ///////////////////////////////////////////////////////////draw 계열 함수.
 
 function draw(){
@@ -297,7 +568,10 @@ function drawPiece(x, y){
 
 function drawPath(x, y){
 	if(board[y][x] != 0){
-		possible = board[y][x].check();
+		if(cFlag){
+			possible = board[y][x].check();
+			cFlag = false;
+		}
 		
 		for(let k=0; k<possible.length; k++){
 			scr.fillStyle = 'yellow';//'rgba(60, 60, 60, 0.5)';
