@@ -371,6 +371,31 @@ class pawn extends piece{
 		super(color, 'pawn', y, x);
 	}
 	
+	move(x, y){
+		let oFlag = false;
+		if(board[y][x].type == "king"){
+			oFlag = true;
+		}
+		board[y][x] = board[this.y][this.x];
+		board[this.y][this.x] = 0;
+		this.y = y;
+		this.x = x;
+		this.cnt += 1;
+		if(oFlag){
+			gameover(this.color);
+		}
+		if(turn == "black"){
+			turn = 'white';
+		}
+		else{
+			turn = "black";
+		}
+		console.log(this.x, this.y)
+		if((this.color == "black" && this.y == 7) || (this.color == "white" && this.y == 0)){
+			this.promote();
+		}
+	}
+	
 	check(){
 		let result = [];
 		
@@ -404,6 +429,10 @@ class pawn extends piece{
 		}
 		return result;
 	}//갈수있는 좌표(y,x)로 구성된 배열을 리턴
+	
+	promote(){
+		board[this.y][this.x] = new queen(this.color, this.y, this.x);
+	}
 }
 ///////////////////////////////////////////////////////////기본 로직 함수.
 
