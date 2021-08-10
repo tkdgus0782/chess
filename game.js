@@ -442,6 +442,7 @@ function init(){
 	
 	window.addEventListener('resize', updateSize);
 	window.addEventListener('click', (e) => {select(e);});
+	window.addEventListener('keydown', ()=>false);
 	
 	window.selected = [-1, -1];//현재 선택된 칸.
 	window.pFlag = false;//선택된 칸에 움직일수 있는 말이 있는지?
