@@ -494,7 +494,7 @@ function checkIn(origin, find){
 }
 
 function select(location){
-	if(location.path[0].id == 'screen'){
+	if(location.id == 'screen'){
 		let x = location.offsetX - space;
 		let y = location.offsetY;
 	
