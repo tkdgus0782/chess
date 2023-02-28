@@ -496,6 +496,7 @@ function checkIn(origin, find){
 
 function select(location){
 	if(location.id == 'screen'){
+		console.log("selected~");
 		let x = location.offsetX - space;
 		let y = location.offsetY;
 	
@@ -518,7 +519,7 @@ function select(location){
 			}
 			return;
 		}
-		console.log("selected~");
+		
 	}
 	else{
 		console.log("not selected!");
