@@ -441,9 +441,9 @@ function init(){
 	window.scr = canvas.getContext('2d');
 	
 	window.addEventListener('resize', updateSize);
-	window.addEventListener('click', function(e){select(e);} );
+	//window.addEventListener('click', function(e){select(e);} );
 	
-	//window.onclik = function(e){select(e);};
+	window.canvas.onclick = function(e){select(e);};
 	window.addEventListener('keydown', ()=>false);
 	
 	window.selected = [-1, -1];//현재 선택된 칸.
@@ -497,7 +497,7 @@ function checkIn(origin, find){
 
 function select(location){
 	console.log("is selected?");
-	if(location.id == 'screen'){
+	if(true){
 		console.log("selected~");
 		let x = location.offsetX - space;
 		let y = location.offsetY;
