@@ -8,7 +8,7 @@ class piece{
 	constructor(color, type, x, y){
 		this.img = new Image();
 		this.img.src = `image/${type}_${color}.png`;
-		this.color = color;
+		this.color = color;         
 		this.type = type;
 		this.x = x;
 		this.y = y;
