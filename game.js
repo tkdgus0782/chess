@@ -517,6 +517,10 @@ function select(location){
 			}
 			return;
 		}
+		console.log("selected~");
+	}
+	else{
+		console.log("not selected!");
 	}
 	selected =  [-1, -1];
 	pFlag = false;
