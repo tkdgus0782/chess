@@ -443,7 +443,7 @@ function init(){
 	window.addEventListener('resize', updateSize);
 	window.addEventListener('click', function(e){select(e);} );
 	
-	#window.onclik = function(e){select(e);};
+	//window.onclik = function(e){select(e);};
 	window.addEventListener('keydown', ()=>false);
 	
 	window.selected = [-1, -1];//현재 선택된 칸.
