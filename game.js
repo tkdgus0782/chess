@@ -441,7 +441,8 @@ function init(){
 	window.scr = canvas.getContext('2d');
 	
 	window.addEventListener('resize', updateSize);
-	window.addEventListener('click', select);
+	window.addEventListener('click', function(e){select(e);} );
+	windoe.canvas.onclik = function(e){select(e);};
 	window.addEventListener('keydown', ()=>false);
 	
 	window.selected = [-1, -1];//현재 선택된 칸.
